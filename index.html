@@ -1,1 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dragon Ethical Zone - Final Boss</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: black;
+            font-family: monospace;
+            color: #00ffcc;
+        }
 
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* LOGIN SCREEN */
+        .login {
+            position: absolute;
+            z-index: 3;
+            width: 300px;
+            padding: 20px;
+            border: 2px solid #00ffcc;
+            box-shadow: 0 0 30px #00ffcc;
+            border-radius: 15px;
+            background: rgba(0,0,0,0.8);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            background: black;
+            border: 1px solid #00ffcc;
+            color: #00ffcc;
+        }
+
+        button {
+            padding: 10px;
+            width: 100%;
+            background: #00ffcc;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* DASHBOARD */
+        .panel {
+            display: none;
+            position: relative;
+            z-index: 2;
+            width: 450px;
+            margin: auto;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 20px;
+            border: 2px solid #00ffcc;
+            box-shadow: 0 0 40px #00ffcc;
+            border-radius: 15px;
+            background: rgba(0,0,0,0.75);
+            text-align: center;
+        }
+
+        h1 {
+            color: red;
+            text-shadow: 0 0 15px red;
+        }
+
+        h2 {
+            color: yellow;
+        }
+
+        .terminal {
+            text-align: left;
+            height: 80px;
+            overflow: hidden;
+            border: 1px solid #00ffcc;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .map {
+            width: 200px;
+            margin: auto;
+            margin-top: 10px;
+        }
+
+        svg {
+            width: 100%;
+            filter: drop-shadow(0 0 10px #00ffcc);
+        }
+
+    </style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<!-- LOGIN -->
+<div class="login" id="loginBox">
+    <h2>ACCESS SYSTEM</h2>
+    <input type="text" placeholder="Username">
+    <input type="password" placeholder="Password">
+    <button onclick="enterSystem()">LOGIN</button>
+</div>
+
+<!-- DASHBOARD -->
+<div class="panel" id="panel">
+    <h1>DRAGON ETHICAL ZONE</h1>
+    <h2>Bangladesh Cyber Core</h2>
+
+    <div class="terminal" id="terminal"></div>
+
+    <div class="map">
+        <svg viewBox="0 0 200 200">
+            <path d="M60,20 L120,30 L150,70 L140,120 L100,170 L60,150 L40,100 Z"
+                  fill="none"
+                  stroke="#00ffcc"
+                  stroke-width="3"/>
+        </svg>
+    </div>
+
+    <p>
+        🌐 Bangladesh Active Node<br>
+        👥 Group: DRAGON ETHICAL ZONE<br>
+        ✍️ Created by: Dip
+    </p>
+</div>
+
+<script>
+
+// MATRIX
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+
+let letters = "01DRAGONETHICALZONE";
+letters = letters.split("");
+
+const fontSize = 14;
+const columns = canvas.width / fontSize;
+const drops = Array(columns).fill(1);
+
+function draw() {
+    ctx.fillStyle = "rgba(0,0,0,0.05)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    ctx.fillStyle = "#00ffcc";
+    ctx.font = fontSize + "px monospace";
+
+    for(let i=0;i<drops.length;i++){
+        const text = letters[Math.floor(Math.random()*letters.length)];
+        ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+
+        if(drops[i]*fontSize > canvas.height && Math.random() > 0.975){
+            drops[i]=0;
+        }
+
+        drops[i]++;
+    }
+}
+setInterval(draw, 35);
+
+// LOGIN
+function enterSystem(){
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("panel").style.display = "block";
+    startTerminal();
+}
+
+// TERMINAL
+const lines = [
+    "Connecting to DRAGON NODE...",
+    "Bypassing security...",
+    "Access granted...",
+    "Loading Cyber Dashboard...",
+    "Welcome Dip"
+];
+
+let i=0;
+function startTerminal(){
+    const terminal = document.getElementById("terminal");
+    setInterval(()=>{
+        if(i<lines.length){
+            terminal.innerHTML += lines[i] + "<br>";
+            i++;
+        } else {
+            terminal.innerHTML = "";
+            i=0;
+        }
+    },1000);
+}
+
+</script>
+
+</body>
+</html>
