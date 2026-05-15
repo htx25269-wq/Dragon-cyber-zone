@@ -1,85 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Safe Camera App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OTP Web App</title>
+
 <style>
-body {
+body{
     font-family: Arial;
-    text-align: center;
-    background: #111;
-    color: white;
+    text-align:center;
+    margin-top:60px;
+    background:#111;
+    color:white;
 }
 
-video, canvas {
-    width: 90%;
-    max-width: 400px;
-    margin-top: 10px;
-    border-radius: 10px;
-    border: 2px solid #444;
+input, button{
+    padding:12px;
+    width:80%;
+    margin:10px;
+    font-size:16px;
+    border-radius:6px;
+    border:none;
 }
 
-button {
-    padding: 10px 15px;
-    margin: 10px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
+button{
+    background:#00c853;
+    color:white;
 }
 
-#start { background: green; color: white; }
-#snap { background: orange; }
-#download { background: blue; color: white; }
+.box{
+    background:#222;
+    padding:20px;
+    margin:20px;
+    border-radius:10px;
+}
 </style>
 </head>
+
 <body>
 
-<h2>📷 Safe Camera App</h2>
+<div class="box">
+<h2>📱 OTP WEB APP</h2>
 
-<video id="video" autoplay playsinline></video>
+<input id="phone" placeholder="Enter phone number">
+
 <br>
 
-<button id="start">Start Camera</button>
-<button id="snap">Take Photo</button>
-<button id="download">Download Photo</button>
+<button onclick="sendOTP()">Send OTP</button>
 
-<canvas id="canvas" style="display:none;"></canvas>
+<p id="msg"></p>
+</div>
 
 <script>
-let video = document.getElementById("video");
-let canvas = document.getElementById("canvas");
-let context = canvas.getContext("2d");
+function sendOTP(){
+    let phone = document.getElementById("phone").value;
 
-let stream;
-
-// Start Camera
-document.getElementById("start").onclick = async function () {
-    try {
-        stream = await navigator.mediaDevices.getUserMedia({
-            video: true
-        });
-        video.srcObject = stream;
-    } catch (err) {
-        alert("Camera permission denied!");
+    if(phone.length < 5){
+        document.getElementById("msg").innerText = "❌ Invalid number";
+        return;
     }
-};
 
-// Take Photo
-document.getElementById("snap").onclick = function () {
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    context.drawImage(video, 0, 0);
-
-    alert("Photo captured!");
-};
-
-// Download Photo
-document.getElementById("download").onclick = function () {
-    let link = document.createElement("a");
-    link.download = "photo.png";
-    link.href = canvas.toDataURL("image/png");
-    link.click();
-};
+    // GitHub demo mode (no backend available)
+    document.getElementById("msg").innerText =
+        "📤 OTP request sent to: " + phone + " (demo mode)";
+}
 </script>
 
 </body>
